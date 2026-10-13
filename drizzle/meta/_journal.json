@@ -22,6 +22,13 @@
       "when": 1791883464007,
       "tag": "0002_new_mephisto",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1791884399445,
+      "tag": "0003_classy_wolfpack",
+      "breakpoints": true
     }
   ]
 }
