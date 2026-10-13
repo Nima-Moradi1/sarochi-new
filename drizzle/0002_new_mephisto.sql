@@ -1,0 +1,2 @@
+CREATE INDEX `product_categories_category_idx` ON `product_categories` (`category_id`);--> statement-breakpoint
+CREATE INDEX `variants_stock_price_idx` ON `product_variants` (`stock_status`,`sale_price_toman`,`regular_price_toman`);

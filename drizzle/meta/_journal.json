@@ -15,6 +15,13 @@
       "when": 1791883231991,
       "tag": "0001_foamy_titania",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1791883464007,
+      "tag": "0002_new_mephisto",
+      "breakpoints": true
     }
   ]
 }
