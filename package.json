@@ -1,0 +1,61 @@
+{
+  "name": "sarochi-living-atelier",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@11.18.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:seed": "tsx src/db/seed.ts",
+    "db:check": "tsx src/db/check.ts",
+    "admin:create": "tsx scripts/create-admin.ts",
+    "test:unit": "tsx --test src/features/catalog/rules.test.ts src/features/catalog/variant-selection.test.ts src/features/cart/quote.test.ts src/features/admin/auth/rules.test.ts src/features/admin/catalog/schemas.test.ts src/features/import/adapters/source-http.test.ts src/features/import/normalizers/sarochi-product.test.ts src/features/import/staging.test.ts src/features/import/review-rules.test.ts src/features/rack/gesture.test.ts src/features/rack/media.test.ts src/features/styling/preview.test.ts",
+    "test:e2e:api": "playwright test --project=api",
+    "test:e2e:browser": "playwright test --project=desktop --project=mobile",
+    "source:probe": "tsx scripts/probe-sarochi.ts",
+    "import:sarochi": "tsx scripts/import-sarochi.ts",
+    "import:reconcile": "tsx scripts/reconcile-import.ts"
+  },
+  "dependencies": {
+    "@fontsource-variable/vazirmatn": "^5.0.0",
+    "@heroui/react": "^3.0.0",
+    "@heroui/styles": "^3.0.0",
+    "@react-three/drei": "^10.7.9",
+    "@react-three/fiber": "^9.8.1",
+    "argon2": "^0.45.1",
+    "cheerio": "^1.2.0",
+    "dotenv": "^17.0.0",
+    "drizzle-orm": "^0.45.4",
+    "motion": "^14.1.0",
+    "mysql2": "^3.0.0",
+    "next": "^16.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "server-only": "^0.0.1",
+    "sharp": "^0.35.5",
+    "three": "^0.186.1",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.0",
+    "@tailwindcss/postcss": "^4.0.0",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@types/three": "^0.186.0",
+    "drizzle-kit": "^0.31.11",
+    "eslint": "^9.0.0",
+    "eslint-config-next": "^16.0.0",
+    "tailwindcss": "^4.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.7.0"
+  }
+}
