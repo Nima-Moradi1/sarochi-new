@@ -43,6 +43,13 @@
       "when": 1791891015260,
       "tag": "0005_fast_virginia_dare",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1791903292311,
+      "tag": "0006_lovely_rhodey",
+      "breakpoints": true
     }
   ]
 }
