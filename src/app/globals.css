@@ -1,0 +1,39 @@
+@import "tailwindcss";
+@import "@heroui/styles";
+@import "@fontsource-variable/vazirmatn/wght.css";
+
+:root {
+  --surface-canvas: #f4f2ed;
+  --surface-rack: #e9eee8;
+  --text-primary: #171b19;
+  --text-secondary: #666e69;
+  --accent-moss: #465b4f;
+  --hanger-wood: #9b765a;
+  --surface-concept-garment: #c7cec8;
+  --font-body: "Vazirmatn Variable", sans-serif;
+}
+
+[data-theme="PORCELAIN"] {
+  --surface-canvas: #f4f2ed;
+  --surface-rack: #e9eee8;
+}
+
+[data-theme="CHALK"] {
+  --surface-canvas: #e9eee8;
+  --surface-rack: #f4f2ed;
+}
+
+:root[data-typography="SYSTEM"] { --font-body: system-ui, sans-serif; }
+
+@theme inline {
+  --color-canvas: var(--surface-canvas);
+  --color-rack: var(--surface-rack);
+  --color-ink: var(--text-primary);
+  --color-muted: var(--text-secondary);
+  --color-moss: var(--accent-moss);
+  --font-sans: var(--font-body);
+}
+
+html { color-scheme: light; }
+body { margin: 0; background: var(--surface-canvas); color: var(--text-primary); font-family: var(--font-body); }
+:focus-visible { outline: 2px solid var(--accent-moss); outline-offset: 3px; }
