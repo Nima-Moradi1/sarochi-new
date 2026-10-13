@@ -8,6 +8,13 @@
       "when": 1791882732196,
       "tag": "0000_windy_lady_deathstrike",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1791883231991,
+      "tag": "0001_foamy_titania",
+      "breakpoints": true
     }
   ]
 }
