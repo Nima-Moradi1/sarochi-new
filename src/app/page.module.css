@@ -1,0 +1,55 @@
+.heroArt {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: clamp(350px, 41vw, 650px);
+  overflow: hidden;
+  border-radius: 50% 50% 45% 45%;
+  background: radial-gradient(circle at 50% 42%, var(--surface-rack) 0 34%, #dce5dd 72%, #d3ddd4 100%);
+}
+
+.heroRing {
+  position: absolute;
+  width: 82%;
+  aspect-ratio: 1;
+  border: 1px solid rgb(70 91 79 / 26%);
+  border-radius: 50%;
+  box-shadow: 0 0 0 40px rgb(244 242 237 / 20%), 0 0 0 100px rgb(244 242 237 / 12%);
+}
+
+.heroSeam {
+  position: absolute;
+  top: 15%;
+  bottom: 15%;
+  left: 50%;
+  border-left: 1px dashed rgb(70 91 79 / 40%);
+  transform: rotate(22deg);
+}
+
+.heroLetter {
+  position: relative;
+  color: rgb(70 91 79 / 85%);
+  font-family: Georgia, serif;
+  font-size: clamp(15rem, 30vw, 32rem);
+  font-weight: 400;
+  line-height: 1;
+  transform: translateY(-2%);
+}
+
+.heroIndex {
+  position: absolute;
+  bottom: 8%;
+  color: var(--text-secondary);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+}
+
+@media (max-width: 1023px) {
+  .heroArt {
+    width: min(100%, 520px);
+    min-height: 0;
+    max-height: none;
+    aspect-ratio: 1;
+    justify-self: center;
+  }
+}
