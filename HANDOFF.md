@@ -1,12 +1,12 @@
 # HANDOFF - SAROCHI / The Living Atelier
 
-**Last updated:** 2026-10-13T15:24:24.497Z
-**Current task:** PUB-T01 / IN_PROGRESS
+**Last updated:** 2026-10-13T15:31:58.134Z
+**Current task:** PUB-T01 / DONE
 **Project state:** Implemented full-stack MVP; source review and production deployment remain separate gates.
 
-## Current objective
+## Publication result
 
-Publish the current code in at least 50 professional feature-based commits on a dedicated GitHub branch. Existing public repository: Nima-Moradi1/sarochi-new. First action: review commit groups and secret/provenance exclusions; commit, push, verify remote SHA, then record publication result. Expected files: all approved source/config/docs and HANDOFF.md/TASKS.md. Reference binaries, .env, QA scripts, screenshots, DB contents and uploaded media stay local.
+Published to existing public repository https://github.com/Nima-Moradi1/sarochi-new on branch feature/living-atelier-mvp. The 68 categorized implementation commits were pushed and verified: local and remote SHA both 00b74cab933226d604935dc88e9253ff46d906f1. This final documentation commit records completion. GitHub confirms owner Nima-Moradi1 and default branch feature/living-atelier-mvp (the repository was previously empty). Reference binaries, secrets, runtime/DB data and QA artifacts are excluded. No merge, deployment or force-push occurred.
 
 ## Implemented
 
@@ -38,4 +38,4 @@ Publish the current code in at least 50 professional feature-based commits on a 
 
 ## Next exact action
 
-Finish PUB-T01 push/remote verification. Then open /admin/import with an independently provisioned owner, review job 5 and verified front images; run pnpm import:reconcile 5 after approved commits. Production requires Liara/MySQL origin/credentials and persistent MEDIA_STORAGE_DIR volume, migration release step and a rebuilt Docker image/runtime check. Payments remain intentionally demo.
+Open /admin/import with an independently provisioned owner, review job 5 and verified front images; run pnpm import:reconcile 5 after approved commits. Production requires Liara/MySQL origin/credentials and persistent MEDIA_STORAGE_DIR volume, migration release step and a rebuilt Docker image/runtime check. Payments remain intentionally demo.

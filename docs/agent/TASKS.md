@@ -30,12 +30,11 @@ Statuses: `TODO` / `IN_PROGRESS` / `PAUSED` / `BLOCKED` / `DONE`. Only mark DONE
 | P7-T02 | DONE | Fresh audit, bounded request bytes/images, MySQL throttles, protected roles/origins, mapping guards, cart unknown-stock handling and import preservation verified; 31 units/2 API/4 browser/lint/typecheck/build pass. |
 | P7-T03 | BLOCKED | Current standalone production build passes; prior local Docker evidence exists, but current image rebuild and Liara/private MySQL/persistent media-volume deployment need the target environment. Docker CLI unavailable in current shell. No live deployment claim. |
 | P7-T04 | DONE | LEGACY_AUDIT.md and docs/agent/ACCEPTANCE_REPORT.md record actual source traversal/reconciliation, provenance, fresh checks and explicit PARTIAL/production gates. |
-
-| PUB-T01 | IN_PROGRESS | Authorized publication to existing public GitHub repository on feature/living-atelier-mvp with at least 50 meaningful feature-based commits; exclude secrets, runtime data and unlicensed reference binaries. |
+| PUB-T01 | DONE | Published 68 categorized implementation commits plus final handoff to public Nima-Moradi1/sarochi-new, branch feature/living-atelier-mvp. Initial push local/remote SHA 00b74ca matched; no secrets/runtime data/reference binaries, no force-push or merge. |
 
 ## NOW / next action
 
-PUB-T01: commit reviewed file groups, push branch, compare remote SHA, then update publication status.
+P2-T04 is externally gated: run pnpm import:reconcile 5, then review pending candidates and inspected original front media at /admin/import with an independently provisioned owner. P7-T03 waits for a configured Liara/MySQL/persistent media environment.
 
 ## Latest transitions
 
@@ -45,3 +44,5 @@ PUB-T01: commit reviewed file groups, push branch, compare remote SHA, then upda
 - 2026-10-13T15:24:24.497Z - PUB-T01 -> IN_PROGRESS: professional categorized commits and GitHub branch publication authorized.
 
 Historical transitions: [PROGRESS_LOG.md](PROGRESS_LOG.md).
+
+- 2026-10-13T15:31:58.134Z - PUB-T01 IN_PROGRESS -> DONE: native git push accepted; git ls-remote confirms local SHA 00b74ca; GitHub connector confirms owner/public repository and branch.

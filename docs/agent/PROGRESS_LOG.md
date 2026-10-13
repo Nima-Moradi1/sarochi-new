@@ -78,3 +78,5 @@ No coding tasks completed as of the initial bundle (2026-10-13). Keep `HANDOFF.m
 
 
 2026-10-13T15:24:24.497Z - Implementation completion sweep: owner uploads and logo, identity/presets/theme, audit, guide CRUD, catalog sorting/filtering/paging/hierarchy and variant styling mappings completed. Applied migrations 0006/0007. MySQL save/public, security and WebGL runtime proof passed. Source job 5: 400 candidates, 399 pending, 1 previously committed, 36 categories, 121 archive fetches including corrected shop resume. Full inventory remains PARTIAL.
+
+2026-10-13T15:31:58.134Z - PUB-T01 DONE: 68 implementation commits published and remote-verified; final handoff follows as a separate documentation commit. References and private runtime material excluded; catalog review/deployment gates retained.
