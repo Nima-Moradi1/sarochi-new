@@ -1,0 +1,3 @@
+* text=auto eol=lf
+# Owner specifications use intentional Markdown hard breaks and final spacing.
+*.md whitespace=-blank-at-eol,-blank-at-eof

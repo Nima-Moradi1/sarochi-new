@@ -1,0 +1,15 @@
+node_modules/
+.next/
+.pnpm-store/
+.npm-cache/
+.env
+.env.local
+.env.*.local
+*.tsbuildinfo
+coverage/
+playwright-report/
+test-results/
+.artifacts/
+references/
+.env.*
+!.env.example
