@@ -7,7 +7,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { RailDTO } from "@/features/catalog/types";
 import { atelierMotion } from "@/design-system/motion";
-import { GarmentSilhouette } from "./GarmentSilhouette";
 import { boundedDragOffset, clampIndex, nextIndexAfterDrag } from "./gesture";
 import { selectRackMedia } from "./media";
 import styles from "./GarmentRack.module.css";
@@ -27,16 +26,16 @@ function RackStage({ rail }: { rail: RailDTO }) {
   const router = useRouter();
   const stageRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(900);
-  const [active, setActive] = useState(0);
+  const [active, setActive] = useState(() => Math.floor(rail.items.filter((item) => item.media.length || item.cutoutUrl).length / 2));
   const [hovered, setHovered] = useState<number | null>(null);
   const [isolated, setIsolated] = useState(false);
   const [showBack, setShowBack] = useState(false);
   const [enteringMirror, setEnteringMirror] = useState(false);
   const itemButtons = useRef<Array<HTMLButtonElement | null>>([]);
   const reduceMotion = useReducedMotion();
-  const slot = Math.max(155, Math.min(245, width * (width < 600 ? 0.43 : 0.23)));
-  const items = rail.items;
-  const trackX = useSpring(-slot / 2, atelierMotion.trackSpring);
+  const slot = Math.max(85, Math.min(135, width * 0.14));
+  const items = rail.items.filter((item) => item.media.length || item.cutoutUrl);
+  const trackX = useSpring(-(active + 0.5) * slot, atelierMotion.trackSpring);
   const pointer = useRef<{ id: number; startX: number; startY: number; lastX: number; lastTime: number; velocityX: number; horizontal: boolean } | null>(null);
   const suppressClickUntil = useRef(0);
   const wheelAmount = useRef(0);
@@ -55,7 +54,7 @@ function RackStage({ rail }: { rail: RailDTO }) {
     else trackX.set(target);
   }, [active, slot, reduceMotion, trackX]);
 
-  const move = (step: number) => { setShowBack(false); setActive((current) => clampIndex(current + step, items.length)); };
+  const move = (step: number) => { setHovered(null); setShowBack(false); setActive((current) => clampIndex(current + step, items.length)); };
   const activeItem = items[active];
   const activeMedia = activeItem ? selectRackMedia(activeItem.media) : null;
   useEffect(() => {
@@ -97,7 +96,7 @@ function RackStage({ rail }: { rail: RailDTO }) {
     if (!gesture || gesture.id !== event.pointerId) return;
     pointer.current = null;
     if (!gesture.horizontal) return;
-    suppressClickUntil.current = performance.now() + 450;
+    suppressClickUntil.current = event.timeStamp + 450;
     if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
     const dx = event.clientX - gesture.startX;
     const velocity = event.timeStamp - gesture.lastTime < 80 ? gesture.velocityX : 0;
@@ -118,7 +117,7 @@ function RackStage({ rail }: { rail: RailDTO }) {
 
   return (
     <div>
-      <div ref={stageRef} className={styles.stage} data-isolated={isolated} onPointerDown={isolated ? undefined : onPointerDown} onPointerMove={isolated ? undefined : onPointerMove} onPointerUp={isolated ? undefined : (event) => finishPointer(event, false)} onPointerCancel={isolated ? undefined : (event) => finishPointer(event, true)} onClickCapture={(event) => { if (performance.now() < suppressClickUntil.current) { event.preventDefault(); event.stopPropagation(); suppressClickUntil.current = 0; } }} onWheel={isolated ? undefined : onWheel} onKeyDown={(event) => {
+      <div ref={stageRef} className={styles.stage} data-isolated={isolated} onPointerDown={isolated ? undefined : onPointerDown} onPointerMove={isolated ? undefined : onPointerMove} onPointerUp={isolated ? undefined : (event) => finishPointer(event, false)} onPointerCancel={isolated ? undefined : (event) => finishPointer(event, true)} onClickCapture={(event) => { if (event.timeStamp < suppressClickUntil.current) { event.preventDefault(); event.stopPropagation(); suppressClickUntil.current = 0; } }} onWheel={isolated ? undefined : onWheel} onKeyDown={(event) => {
         if (event.key === "Escape" && isolated) { event.preventDefault(); closeIsolation(); return; }
         if (isolated) return;
         if (event.key === "ArrowLeft") { event.preventDefault(); move(1); }
@@ -130,18 +129,18 @@ function RackStage({ rail }: { rail: RailDTO }) {
         <motion.div className={styles.track} style={{ x: trackX, pointerEvents: isolated ? "none" : "auto" }} animate={{ opacity: isolated ? 0.12 : 1 }} transition={{ duration: reduceMotion ? 0 : atelierMotion.fade }} aria-hidden={isolated} inert={isolated}>
           {items.map((item, index) => {
             const media = selectRackMedia(item.media).front;
-            const selected = index === (hovered ?? active);
+            const selected = index === hovered;
+            const clearance = hovered === null || index === hovered ? 0 : (index < hovered ? -1 : 1) * (width < 600 ? 68 : 95);
             return (
-              <div key={item.id} className={styles.slot} style={{ width: slot }}>
-                <Hanger />
-                <motion.button ref={(element) => { itemButtons.current[index] = element; }} type="button" className="group block w-full cursor-pointer rounded-lg focus-visible:outline-2" aria-label={`${item.nameFa}، ${index + 1} از ${items.length}`} aria-current={index === active ? "true" : undefined} onMouseEnter={() => { if (!pointer.current?.horizontal) setHovered(index); }} onMouseLeave={() => setHovered(null)} onFocus={() => setActive(index)} onClick={() => { if (index === active) setIsolated(true); else setActive(index); }} animate={{ y: selected ? -12 : 0, scale: selected ? 1.16 : 0.87, opacity: selected ? 1 : 0.58 }} transition={reduceMotion ? { duration: 0 } : atelierMotion.garmentSpring} style={{ transformOrigin: "50% 0" }}>
-                  <span className={styles.garment}>
-                    {media ? <Image src={media.url} alt={item.nameFa} fill sizes="(max-width: 767px) 155px, 245px" unoptimized draggable={false} className={styles.productImage} /> : <GarmentSilhouette garmentClass={item.garmentClass} />}
-                  </span>
-                  <span className="mx-auto mt-3 block max-w-54 text-sm leading-6 text-ink">{item.nameFa}</span>
-                  {!media && <span className="mt-1 block text-[11px] text-muted">نمای مفهومی — تصویر محصول نیست</span>}
-                </motion.button>
-              </div>
+              <motion.div key={item.id} className={styles.slot} style={{ width: slot, zIndex: selected ? 4 : 1 }} animate={{ x: clearance }} transition={reduceMotion ? { duration: 0 } : atelierMotion.garmentSpring}>
+                <button ref={(element) => { itemButtons.current[index] = element; }} type="button" className={styles.garmentControl} data-product-id={item.id} data-facing={selected ? "front" : "side"} aria-label={`${item.nameFa}، ${index + 1} از ${items.length}`} aria-current={index === active ? "true" : undefined} onPointerEnter={(event) => { if (event.pointerType === "mouse" && !pointer.current?.horizontal) setHovered(index); }} onPointerLeave={() => setHovered((current) => current === index ? null : current)} onPointerDown={(event) => { if (event.pointerType !== "mouse") setHovered(index); }} onPointerUp={(event) => { if (event.pointerType !== "mouse") setHovered(null); }} onPointerCancel={() => setHovered(null)} onFocus={(event) => { if (event.currentTarget.matches(":focus-visible")) { setActive(index); setHovered(index); } }} onBlur={() => setHovered(null)} onClick={(event) => { setActive(index); if (event.detail === 0) setIsolated(true); }}>
+                  <motion.span className={styles.hangingAssembly} animate={{ rotateY: selected ? 0 : 72, rotateZ: selected ? 0 : -2, z: selected ? 38 : 0 }} transition={reduceMotion ? { duration: 0 } : atelierMotion.garmentSpring}>
+                    <Hanger />
+                    <span className={styles.garment}><Image src={item.cutoutUrl ?? media!.url} alt={item.nameFa} fill sizes="(max-width: 767px) 200px, 285px" unoptimized draggable={false} className={styles.productImage} /></span>
+                  </motion.span>
+                </button>
+                <span className={styles.garmentLabel}>{selected || index === active ? item.nameFa : ""}</span>
+              </motion.div>
             );
           })}
         </motion.div>
@@ -156,14 +155,14 @@ function RackStage({ rail }: { rail: RailDTO }) {
               <motion.div className={styles.flipPerspective} animate={{ y: enteringMirror ? -18 : 0, scale: enteringMirror ? 0.72 : 1, opacity: enteringMirror ? 0.18 : 1 }} transition={{ duration: reduceMotion ? 0 : atelierMotion.mirror }}>
                 <motion.div className={styles.flipCard} animate={{ rotateY: showBack ? 180 : 0 }} transition={{ duration: reduceMotion ? 0 : atelierMotion.flip }}>
                   <div className={styles.flipFace}>
-                    {activeMedia?.front ? <Image src={activeMedia.front.url} alt={`نمای ${activeMedia.frontVerified ? "جلوی" : "تأییدنشده"} ${activeItem.nameFa}`} fill sizes="(max-width: 767px) 260px, 400px" unoptimized draggable={false} className={styles.productImage} /> : <GarmentSilhouette garmentClass={activeItem.garmentClass} />}
+                    {(activeItem.cutoutUrl || activeMedia?.front) && <Image src={activeItem.cutoutUrl ?? activeMedia!.front!.url} alt={activeItem.nameFa} fill sizes="(max-width: 767px) 260px, 400px" unoptimized draggable={false} className={styles.productImage} />}
                   </div>
                   {activeMedia?.back && <div className={`${styles.flipFace} ${styles.flipBack}`}><Image src={activeMedia.back.url} alt={`نمای پشت ${activeItem.nameFa}`} fill sizes="(max-width: 767px) 260px, 400px" unoptimized draggable={false} className={styles.productImage} /></div>}
                 </motion.div>
               </motion.div>
               <div className={styles.isolationDetails}>
-                <div><p className="font-medium">{activeItem.nameFa}</p><p className="mt-1 text-xs text-muted">{activeMedia?.front ? activeMedia.frontVerified ? "تصویر جلوی تأییدشده" : "زاویه تصویر تأیید نشده است" : "نمای مفهومی — تصویر محصول نیست"}</p></div>
-                <div className="flex flex-wrap gap-2"><button type="button" onClick={() => setShowBack((value) => !value)} disabled={!activeMedia?.back || enteringMirror} className="min-h-11 rounded-full border border-ink/30 bg-canvas px-5 disabled:cursor-not-allowed disabled:opacity-60">{activeMedia?.back ? showBack ? "نمای جلو" : "نمای پشت" : "پشت واقعی موجود نیست"}</button><Link href={`/products/${encodeURIComponent(activeItem.slug)}`} className="inline-flex min-h-11 items-center rounded-full bg-ink px-5 text-canvas">مشاهده محصول</Link><button type="button" disabled={enteringMirror} onClick={() => setEnteringMirror(true)} className="min-h-11 rounded-full border border-ink/30 bg-canvas px-5 disabled:opacity-60">{enteringMirror ? "ورود به اتاق استایل…" : "ورود به اتاق استایل"}</button></div>
+                <div><p className="font-medium">{activeItem.nameFa}</p></div>
+                <div className="flex flex-wrap gap-2">{activeMedia?.back && <button type="button" onClick={() => setShowBack((value) => !value)} disabled={enteringMirror} className="min-h-11 rounded-full border border-ink/30 bg-canvas px-5 disabled:opacity-60">{showBack ? "نمای جلو" : "نمای پشت"}</button>}<Link href={`/products/${encodeURIComponent(activeItem.slug)}`} className="inline-flex min-h-11 items-center rounded-full bg-ink px-5 text-canvas">مشاهده محصول</Link><button type="button" disabled={enteringMirror} onClick={() => setEnteringMirror(true)} className="min-h-11 rounded-full border border-ink/30 bg-canvas px-5 disabled:opacity-60">{enteringMirror ? "ورود به اتاق استایل…" : "ورود به اتاق استایل"}</button></div>
               </div>
             </motion.div>
           )}

@@ -34,6 +34,46 @@
   height: 410px;
   padding: 0 7px;
   text-align: center;
+  perspective: 1100px;
+  overflow: visible;
+}
+
+.garmentControl {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 355px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  perspective: 1100px;
+  transform-style: preserve-3d;
+  touch-action: pan-y;
+}
+
+.hangingAssembly {
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 50%;
+  margin-left: -142px;
+  width: 284px;
+  transform-origin: 50% 12px;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+
+.garmentLabel {
+  display: block;
+  position: relative;
+  width: 230px;
+  left: 50%;
+  margin-left: -115px;
+  margin-top: 18px;
+  font-size: 0.8rem;
+  line-height: 1.7;
+  pointer-events: none;
 }
 
 .hanger {
@@ -49,7 +89,7 @@
   position: relative;
   display: block;
   width: 100%;
-  height: clamp(220px, 25vw, 320px);
+  height: 305px;
   transform-origin: 50% 0;
   will-change: transform;
 }
@@ -150,6 +190,9 @@
   }
   .isolationDetails > div:last-child { justify-content: flex-start; }
   .slot { height: 330px; }
+  .garmentControl { height: 285px; }
+  .hangingAssembly { width: 205px; margin-left: -102.5px; }
+  .garmentLabel { width: 180px; margin-left: -90px; font-size: 0.75rem; }
   .garment { height: 240px; }
   .fadeEdge { width: 24px; }
   .flipPerspective { grid-row: 1; width: min(76vw, 310px); height: 265px; }
