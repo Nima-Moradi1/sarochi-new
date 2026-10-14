@@ -20,6 +20,8 @@ export type NormalizedProduct = {
   sourceId: string | null;
   nameFa: string;
   descriptionFa: string | null;
+  care?: string[];
+  sizeGuide?: { titleFa: string; toleranceCm: number | null; measurements: { size: string; metric: string; valueCm: number }[] } | null;
   categoryKeys: string[];
   variants: Array<{
     sourceVariationId: string;
@@ -41,6 +43,8 @@ export const normalizedProductSchema = z.object({
   sourceId: z.string().max(160).nullable(),
   nameFa: z.string().min(1).max(240),
   descriptionFa: z.string().max(20000).nullable(),
+  care: z.array(z.string().max(2000)).max(30).optional(),
+  sizeGuide: z.object({ titleFa: z.string().max(200), toleranceCm: z.number().nonnegative().max(99).nullable(), measurements: z.array(z.object({ size: z.string().max(24), metric: z.string().max(80), valueCm: z.number().nonnegative().max(9999) })).max(500) }).nullable().optional(),
   categoryKeys: z.array(z.string().max(160)).max(30),
   variants: z.array(z.object({ sourceVariationId: z.string().min(1).max(160), sku: z.string().max(120).nullable(), size: z.string().max(24).nullable(), color: z.string().max(80).nullable(), regularPriceToman: z.number().int().nonnegative().nullable(), salePriceToman: z.number().int().nonnegative().nullable(), stockQty: z.null(), stockStatus: z.enum(["IN_STOCK", "OUT_OF_STOCK"]) })).max(100),
   media: z.array(z.object({ sourceUrl: z.url().max(2048), angle: z.literal("UNKNOWN"), isPrimary: z.boolean() })).max(100),
@@ -114,6 +118,56 @@ export function parseSarochiProduct(html: string, requestedUrl: string, collecte
   });
   if (mediaUrls.size === 0) issues.push("MISSING_GALLERY");
 
+  const details: string[] = [];
+  const short = doc(".woocommerce-product-details__short-description").first().text().replace(/\s+/g, " ").trim();
+  if (short) details.push(short);
+  const description = doc(".woocommerce-Tabs-panel--description").first().clone();
+  description.find("script,style").remove();
+  description.find("br,p,li,h2,h3").append("\n");
+  const long = description.text().split("\n").map((line) => line.replace(/\s+/g, " ").trim()).filter(Boolean).join("\n");
+  if (long && long !== short) details.push(long);
+  doc(".woocommerce-product-attributes tr").each((_, element) => {
+    const label = doc(element).find("th").text().replace(/\s+/g, " ").trim();
+    const value = doc(element).find("td").text().replace(/\s+/g, " ").trim();
+    if (label && value) details.push(`${label}: ${value}`);
+  });
+
+  const care: string[] = [];
+  doc(".e-n-accordion-item").each((_, element) => {
+    const title = doc(element).find("summary").first().text();
+    if (!/شستشو|نگهداری/.test(title)) return;
+    const content = doc(element).clone();
+    content.find("summary,script,style").remove();
+    content.find("br,p,li").append("\n");
+    const text = content.text().split("\n").map((line) => line.replace(/\s+/g, " ").trim()).filter(Boolean).join("\n");
+    if (text) care.push(text.slice(0, 2000));
+  });
+  const numberText = (value: string) => value.replace(/[۰-۹]/g, (digit) => String("۰۱۲۳۴۵۶۷۸۹".indexOf(digit))).replace(/[٠-٩]/g, (digit) => String("٠١٢٣٤٥٦٧٨٩".indexOf(digit))).replace(/٫/g, ".");
+  const table = doc(".wd-sizeguide-table").first();
+  const guideContainer = table.closest(".wd-sizeguide");
+  const guideText = guideContainer.text().replace(/\s+/g, " ");
+  const headers = table.find("tr").first().find("th,td").map((_, cell) => doc(cell).text().trim()).get();
+  const measurements: NonNullable<NormalizedProduct["sizeGuide"]>["measurements"] = [];
+  // Only source tables explicitly declaring centimetres may enter valueCm.
+  if (/سانتی\s*متر/.test(guideText) && headers.length > 1) {
+    table.find("tr").slice(1).each((_, row) => {
+      const cells = doc(row).find("th,td").map((_, cell) => doc(cell).text().trim()).get();
+      const size = numberText(cells[0] ?? "").toUpperCase();
+      if (!size || size.length > 24 || cells.length !== headers.length) return;
+      cells.slice(1).forEach((value, index) => {
+        const numeric = numberText(value);
+        if (!/^\d+(?:\.\d+)?$/.test(numeric) || Number(numeric) > 9999 || !headers[index + 1] || headers[index + 1].length > 80) return;
+        measurements.push({ size, metric: headers[index + 1], valueCm: Number(numeric) });
+      });
+    });
+  }
+  const tolerance = /\+\s*\/\s*-\s*([\d۰-۹٠-٩]+(?:[.٫][\d۰-۹٠-٩]+)?)\s*سانتی/.exec(guideText);
+  const sizeGuide = measurements.length && measurements.length <= 500 ? {
+    titleFa: guideContainer.find("h1,h2,h3,h4,h5,.wd-sizeguide-title").first().text().trim().slice(0, 200) || "راهنمای سایز ساروچی",
+    toleranceCm: tolerance ? Number(numberText(tolerance[1])) : null,
+    measurements,
+  } : null;
+
   const categoryKeys = new Set<string>();
   doc('script[type="application/ld+json"]').each((_, element) => {
     try {
@@ -134,7 +188,9 @@ export function parseSarochiProduct(html: string, requestedUrl: string, collecte
     sourceUrl: canonical,
     sourceId,
     nameFa,
-    descriptionFa: doc(".woocommerce-product-details__short-description").first().text().replace(/\s+/g, " ").trim() || null,
+    descriptionFa: [...new Set(details)].join("\n\n").slice(0, 20000) || null,
+    care: [...new Set(care)],
+    sizeGuide,
     categoryKeys: [...categoryKeys],
     variants,
     media: [...mediaUrls].map((sourceUrl, index) => ({ sourceUrl, angle: "UNKNOWN", isPrimary: index === 0 })),

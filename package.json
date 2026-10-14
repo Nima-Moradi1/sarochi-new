@@ -22,7 +22,10 @@
     "test:e2e:browser": "playwright test --project=desktop --project=mobile",
     "source:probe": "tsx scripts/probe-sarochi.ts",
     "import:sarochi": "tsx scripts/import-sarochi.ts",
-    "import:reconcile": "tsx scripts/reconcile-import.ts"
+    "import:reconcile": "tsx scripts/reconcile-import.ts",
+    "import:sample": "tsx scripts/sample-sarochi.ts",
+    "import:sample:details": "tsx scripts/refresh-sample-details.ts",
+    "import:sample:inspect": "tsx scripts/inspect-sample-media.ts"
   },
   "dependencies": {
     "@fontsource-variable/vazirmatn": "^5.0.0",
