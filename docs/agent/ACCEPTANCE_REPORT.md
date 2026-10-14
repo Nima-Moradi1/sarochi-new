@@ -1,26 +1,24 @@
-# Implementation acceptance and release gates
+# Current acceptance — owner correction
 
-2026-10-13. Implementation is connected to MySQL; production catalog/release status is **PARTIAL**.
+2026-10-13T16:33:00Z. Previous silhouettes, zoom-only treatment and procedural avatar were rejected. Prior passing builds/tests did not establish that those visuals fulfilled the request. This report covers the corrective implementation; full virtual dressing and production release remain **PARTIAL**.
 
-| Boundary | Fresh evidence |
+| Boundary | Current evidence |
 |---|---|
-| Application | Lint, strict typecheck, 31 unit checks and production standalone build passed. |
-| Database | Migrations 0006/0007 applied; 26 domain tables; demo seed preserved existing owner settings and added missing DB presets. |
-| Commerce | Real detail/variants/guides, stock/sale filters and stable price/newest cursors; all 25 published rows traversed without duplicates. Unknown stock cannot qualify as available or complete demo checkout. |
-| Admin | Authenticated CMS/brand/guide save-to-public, owner upload/logo, original retention, metadata edits, logo role refusal, searchable audit and resource pagination passed against live MySQL. |
-| Security | Byte/signature/decode/pixel limits, rights affirmation, origin/RBAC guards, 401/403/404/413 responses, shared persisted login throttling and mapping audit checks passed. |
-| Styling | DB presets and per-variant class/color/preset mappings feed lazy real WebGL. Actual meshes, pause/manual turn, reduced motion, offscreen/context-loss fallback and conceptual labels are implemented. |
-| Browser | Two API and four desktop/mobile E2E passed; additional 1440/390 admin/style screenshots inspected. Production mouse drag, touch swipe, wheel-X, ghost-click suppression and context-loss fallback passed. |
-| Source | Job 5: 400 unique candidates, 399 pending, one committed; corrected shop alias matches observed 400 products. Two category counts remain unknown. See [LEGACY_AUDIT.md](../../LEGACY_AUDIT.md). |
+| Real source catalog | 162 distinct published source products, 36 hierarchical rails, 271 memberships. Up to 9/category; fewer where the source contains fewer. Demo products archived and demo rails unpublished. |
+| Actual photographs | 636 source photo URLs downloaded, 656 gallery links. Original bytes private/unchanged, public WebP, separate edge-white cutout derivative. No AI garment/person generation. Source/inspection metadata in `docs/research/SAMPLE_MEDIA_REVIEW.json`. |
+| Rack | All rest sideways; hover/held touch clears neighbor space and rotates selected hanger+garment frontal; leave/release restores side. Desktop/mobile actual interaction and screenshot proof pass. No zoom-only replacement. |
+| Back view | Only inspected original front/back pairs enable flip. No fake back, absent-back control or missing-back copy. 101 original backs verified; other images conservatively classified. |
+| Source details | Checked 162 / zero failures. 130 verified-centimetre size guides, 162 care guides, 3,241 measurements. Existing content preserved. Example product 102's 24 measurements / 2cm tolerance / 4 photos / 6 variants verified through public API. |
+| Real human | 9 products have actual exact-product source on-model photos, with reviewed full-body primaries. Public style route uses them; no primitive canvas or generic black garment. Other products show their own galleries. This is not a completed arbitrary virtual try-on system. |
+| Focused checks | Changed-file lint and strict typecheck pass; 5 existing normalizer/back tests and 4 updated desktop/mobile browser checks pass. Supplementary 1440/390 hover/touch/back/neighbor/image/person-photo checks pass. No fresh correction production build run. |
 
-All isolated QA accounts were disabled and sessions revoked. Temporary brand, CMS, guide, mapping and synthetic-media fixtures were restored/removed. Actual imported product images were retained in configured local media storage with their unverified angles.
+Local source reports, original images, cached HTML and screenshots are private under `.artifacts/owner-media` / `.artifacts`. MySQL is authoritative; none are runtime frontend fixtures. Existing localhost:3000 can be refreshed. Preserve its media directory and database.
 
-## Remaining gates
+## Unfinished acceptance
 
-- **Catalog review:** 399 candidates require explicit review, real category mapping, approved draft commits and inspected original front images. No invented stock, automatic grouping or fabricated backs may fill missing source data.
-- **Production assets:** owner must supply authentic licensed logo/cutout/back images and approve business policies/contact information. Upload controls exist; QA images are not production assets or repository media.
-- **Deployment:** configure Liara application/private MySQL, exact HTTPS `APP_ORIGIN`, and a persistent `MEDIA_STORAGE_DIR` volume owned by runtime UID 1001. Apply migrations explicitly, rebuild the Docker image and verify the target runtime/health/media persistence. Current shell lacks the Docker CLI; the latest production Next build passed, but no current Liara deployment is claimed.
-- **Checkout:** deliberately a demo. No orders, payments, OTP, external payment keys or production-payment readiness are claimed.
-- **Reference publication:** video, frames and screenshots stay local because public redistribution permission is not recorded. Their provenance documentation is published; `.env`, DB records, uploads, QA scripts and screenshots are excluded.
+- **FIX-R02:** Exact garment transfer onto a complete real human for the other 153 products is unimplemented. First offline candidate and source-white-shirt/person experiment are documented in [HANDOFF.md](../../HANDOFF.md); no checkpoint installed or inference proved. An unrelated model photo, generic geometry or generated replacement cannot be counted as completion.
+- **Full inventory:** 238 job-5 candidates remain PENDING_REVIEW, 161 newly COMMITTED plus one earlier unchanged product. Sample authorization does not bulk-approve the remaining catalog. Numeric stock and two category counts remain unknown; don't invent them.
+- **Deployment:** No Liara deployment verified. Production MySQL, exact HTTPS origin, persistent media volume, image/runtime health and business settings remain separate gates. This session did not rebuild/deploy Docker or Next production output.
+- **Checkout:** Demo only; unknown numeric stock cannot complete it. No payment/order/OTP readiness claim.
 
-The next operational action is `pnpm import:reconcile 5`, followed by owner review in `/admin/import`. Exact commands and current task state are in [HANDOFF.md](../../HANDOFF.md).
+Earlier implementation/security/build evidence remains historical in [PROGRESS_LOG.md](PROGRESS_LOG.md). Current exact task/continuation is in [TASKS.md](TASKS.md) and root handoff. Corrective implementation was committed by category and pushed to the public GitHub `feature/living-atelier-mvp` branch on 2026-10-14; remote implementation SHA matched `4b1d52f` before this final documentation commit. Fresh lint/typecheck, 31 unit tests and 4 desktop/mobile browser checks PASS. Publication does not complete FIX-R02 or deployment.

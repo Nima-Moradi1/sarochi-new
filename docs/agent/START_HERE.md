@@ -8,7 +8,7 @@
 
 ## Truthful starting state (2026-10-13)
 
-The prompt bundle has now been implemented as a MySQL-backed Next.js MVP. Use `HANDOFF.md` and `TASKS.md` for current evidence. Source candidates are staged, not automatically approved or published; production deployment remains a separate gate. Current source reconciliation is in root `LEGACY_AUDIT.md`, and fresh implementation/release evidence is in `docs/agent/ACCEPTANCE_REPORT.md`.
+The owner rejected the former silhouettes, rack focus and primitive avatar. The current correction uses 162 real source products and original galleries across 36 categories, plus side-to-front rack choreography. Nine products have actual source human photographs; exact arbitrary virtual dressing is still unfinished. Read `HANDOFF.md` and `TASKS.md` for continuation. Remaining full-catalog review and production deployment are separate gates; old completion/build evidence does not override the latest requirements.
 
 ## Map
 
