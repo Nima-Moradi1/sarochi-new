@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const railQuerySchema = z.object({
   category: z.string().trim().min(1).max(160).regex(/^[a-z0-9-]+$/).optional(),
-  limit: z.coerce.number().int().min(1).max(12).default(8),
+  limit: z.coerce.number().int().min(1).max(60).default(60),
 });
 
 export type RailQuery = z.infer<typeof railQuerySchema>;

@@ -31,8 +31,10 @@ export async function selectPublishedRails(query: RailQuery) {
     garmentClass: products.garmentClass,
     sourceType: products.sourceType,
     position: railItems.position,
+    cutoutUrl: assets.pathOrUrl,
   }).from(railItems)
     .innerJoin(products, eq(railItems.productId, products.id))
+    .leftJoin(assets, eq(railItems.overrideAssetId, assets.id))
     .where(and(inArray(railItems.railId, railRows.map((rail) => rail.id)), eq(products.status, "PUBLISHED")))
     .orderBy(railItems.railId, railItems.position);
 

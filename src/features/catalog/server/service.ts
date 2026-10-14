@@ -25,6 +25,7 @@ export async function getPublishedRails(query: RailQuery): Promise<RailDTO[]> {
       garmentClass: item.garmentClass,
       sourceType: item.sourceType,
       position: item.position,
+      cutoutUrl: item.cutoutUrl ? safeAssetUrl(item.cutoutUrl) : null,
       media: mediaByProduct.get(item.id) ?? [],
     });
     itemsByRail.set(item.railId, items);

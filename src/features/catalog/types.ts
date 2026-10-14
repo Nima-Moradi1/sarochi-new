@@ -5,6 +5,7 @@ export type RailItemDTO = {
   garmentClass: string;
   sourceType: string;
   position: number;
+  cutoutUrl: string | null;
   media: Array<{ url: string; angle: string; confidence: string }>;
 };
 
@@ -55,7 +56,7 @@ export type ProductDetailDTO = {
     salePriceToman: number | null;
     stockQty: number | null;
   }>;
-  media: Array<{ id: number; url: string; angle: string; confidence: string; provenance: string }>;
+  media: Array<{ id: number; url: string; angle: string; confidence: string; provenance: string; isPrimary: boolean }>;
   care: Array<{ titleFa: string; instructionsFa: string }>;
   sizeGuide: { titleFa: string; toleranceCm: string | null; measurements: Array<{ size: string; metric: string; valueCm: string }> } | null;
   related: Array<{ id: number; slug: string; nameFa: string }>;

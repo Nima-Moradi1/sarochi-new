@@ -38,6 +38,7 @@ export async function selectProductDetail(slug: string) {
     id: productMedia.id,
     url: assets.pathOrUrl,
     angle: productMedia.viewAngle,
+    isPrimary: productMedia.isPrimary,
     confidence: productMedia.confidence,
     provenance: assets.provenance,
   }).from(productMedia).innerJoin(assets, eq(productMedia.assetId, assets.id))

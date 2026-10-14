@@ -17,7 +17,7 @@ export default async function Home() {
   let identity: BrandIdentity = {};
   let logo: Awaited<ReturnType<typeof getPublicBrandLogo>> = null;
   try {
-    [rails, pageLinks, presentation, identity, logo] = await Promise.all([getPublishedRails({ limit: 8 }), getPublishedPageLinks(), getBrandPresentation(), getBrandIdentity(), getPublicBrandLogo()]);
+    [rails, pageLinks, presentation, identity, logo] = await Promise.all([getPublishedRails({ limit: 60 }), getPublishedPageLinks(), getBrandPresentation(), getBrandIdentity(), getPublicBrandLogo()]);
   } catch {
     unavailable = true;
   }
