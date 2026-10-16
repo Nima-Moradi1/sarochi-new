@@ -6,8 +6,8 @@ import type { BrandIdentity } from "@/features/content/brand-settings";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "ساروچی | آتلیه زنده",
-  description: "تجربه تازه پوشاک مردانه ساروچی",
+  title: "فروشگاه | آتلیه زنده",
+  description: "تجربه تازه پوشاک مردانه فروشگاه",
 };
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

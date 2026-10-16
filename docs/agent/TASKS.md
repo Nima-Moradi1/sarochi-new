@@ -1,8 +1,10 @@
 # Task registry — current owner correction
 
+**BRAND-T01 — DONE (2026-10-16T11:29:14+00:00):** Generic «فروشگاه پوشاک» identity, hanger logo/favicon/hero, public/admin metadata/copy, neutral legacy DB presentation text, and omitted merchant footer identity. Catalog/prices/source records and behavior untouched. Lint/typecheck/API 2/2 PASS; desktop 1440/mobile 390 visual/navigation/console/overflow checks PASS. MySQL unavailable, so real catalog/detail/modal/price runtime remains unverified; start existing DB then refresh, without re-import. See HANDOFF. FIX-R02 remains PAUSED.
+
 Statuses: `TODO` / `IN_PROGRESS` / `PAUSED` / `BLOCKED` / `DONE`. One active task. Update this file AND root `HANDOFF.md` at every start/finish/pause/block. A passing build cannot substitute for the requested behavior.
 
-**Current objective:** PUB-T02 / DONE, 2026-10-14T06:50:57Z: corrective implementation committed by category and pushed to GitHub, with final documentation accompanying publication. FIX-R02 remains PAUSED at the first actual white-garment transfer proof; next exact task is FIX-R02.3 in HANDOFF.
+**Current objective:** BRAND-T01 / DONE: generic clothing storefront presentation completed. Next verification requires the existing local MySQL service; next implementation remains FIX-R02.3 in HANDOFF.
 
 ## Owner correction — acceptance and exact continuation
 

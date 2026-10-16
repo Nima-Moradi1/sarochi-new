@@ -4,7 +4,7 @@ test("public shell and invalid catalog query respond without a database fixture"
   const home = await request.get("/");
   expect(home.status()).toBe(200);
   expect(home.headers()["x-content-type-options"]).toBe("nosniff");
-  expect(await home.text()).toContain("SAROCHI");
+  expect(await home.text()).toContain("فروشگاه پوشاک");
   const invalid = await request.get("/api/v1/catalog/products?limit=invalid");
   expect(invalid.status()).toBe(400);
 });

@@ -35,7 +35,7 @@ export function AdminBrandPresentationEditor({ overview, editable }: Props) {
 
   return <section aria-labelledby="brand-presentation-title" className="mt-8 rounded-2xl border border-ink/15 p-5">
     <h3 id="brand-presentation-title" className="text-xl font-medium">معرفی برند در صفحه نخست</h3>
-    <p className="mt-2 text-sm text-muted">این متن‌ها از اطلاعات برند ساروچی خوانده می‌شوند و پس از ذخیره در صفحه نخست دیده می‌شوند.</p>
+    <p className="mt-2 text-sm text-muted">این متن‌ها از اطلاعات برند فروشگاه خوانده می‌شوند و پس از ذخیره در صفحه نخست دیده می‌شوند.</p>
     <form onSubmit={save} className="mt-6 grid gap-4 sm:grid-cols-2">
       {([
         ["heroEyebrowFa", "متن بالای تیتر"], ["heroHeadingFa", "تیتر اصلی"], ["heroAccentFa", "بخش برجسته تیتر"], ["heroCtaFa", "متن دکمه کالکشن"],

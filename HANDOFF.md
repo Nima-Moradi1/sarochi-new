@@ -1,7 +1,14 @@
-# HANDOFF — SAROCHI / The Living Atelier
+# HANDOFF — Clothing storefront demo
 
-**Updated:** 2026-10-14T06:50:57Z
-**Current task:** PUB-T02 / DONE: corrective implementation published in categorized commits; final documentation accompanies this publication. FIX-R02 remains PAUSED at first actual garment-transfer proof. FIX-R01 DONE.
+## Latest presentation task
+
+**Updated:** 2026-10-16T11:29:14+00:00
+**Current task:** BRAND-T01 / DONE. Owner explicitly supersedes SAROCHI presentation: generic «فروشگاه پوشاک», shared hanger logo, generic favicon/hero art, neutral metadata and source-photo labels across public/admin pages. Previous publication is historical; FIX-R02 remains PAUSED.
+**Changed paths:** `src/features/content/StoreMark.tsx`, `storefront-copy.ts`, `server/repository.ts`; `src/app/icon.svg`, layout and public/admin page copy; `SourceStyleRoom.tsx`; three admin copy consumers; generic seed names; existing API shell expectation. `DECISIONS.md` ADR-004 records the owner override.
+**Boundary:** Existing merchant logo/contact/social/footer content is omitted from the generic homepage; hero/CMS/product-guide text neutralizes legacy brand names for presentation. Original MySQL records, product routes, source URLs/provenance, observed prices, stock rules, rack/commerce interactions and importer are unchanged. No seed/import/database mutation, commit, push or deployment ran.
+**Fresh checks:** `pnpm lint`, targeted ESLint, `pnpm typecheck`, `pnpm test:e2e:api` (2/2), and `git diff --check` PASS. Regular Playwright (Browser plugin unavailable): homepage → shop at 1440/390, generic title/identity, no old visible brand, no overflow/page errors; homepage console and no framework overlay PASS. Both screenshots visually inspected in OS temp (`generic-store-1440.png`, `generic-store-390.png`).
+**Runtime limit:** MySQL 127.0.0.1:3307 refused connections and Docker daemon/Desktop is unavailable. Catalog/detail/price/rack runtime could not be rechecked; existing DB data was never modified. Dev server started at `http://127.0.0.1:3000` and remains available. Next verification: start existing MySQL service, refresh homepage and check real detail/price/modal; no re-import needed. Next implementation remains FIX-R02.3 below.
+
 **Publication scope:** Source/storage/import, catalog/rack/styling, browser checks, existing generated Next.js type declaration and agent docs. Ignored local media, credentials and unfinished virtual-dressing gates are preserved.
 **State:** Real source sample and corrected rack work locally. Exact virtual dressing for every garment is unfinished. Previous claims that the rejected silhouettes/procedural avatar fulfilled the owner's visual requirements are superseded.
 

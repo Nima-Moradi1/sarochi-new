@@ -18,9 +18,9 @@ async function idBySlug(table: typeof categories | typeof rails | typeof product
 }
 
 async function seed() {
-  await db.insert(brands).values({ code: "SAROCHI", nameFa: "ساروچی", nameEn: "SAROCHI" }).onDuplicateKeyUpdate({ set: { code: "SAROCHI" } });
+  await db.insert(brands).values({ code: "SAROCHI", nameFa: "فروشگاه پوشاک", nameEn: "Clothing Store" }).onDuplicateKeyUpdate({ set: { code: "SAROCHI" } });
   await db.update(brands).set({ settings: {
-    heroEyebrowFa: "آتلیه زنده ساروچی",
+    heroEyebrowFa: "فروشگاه پوشاک",
     heroHeadingFa: "لباس، پیش از آن‌که پوشیده شود،",
     heroAccentFa: "جان می‌گیرد.",
     heroDescriptionFa: "در میان کالکشن‌ها حرکت کنید، جزئیات را از نزدیک ببینید و پوشاک مناسب خود را انتخاب کنید.",
@@ -52,7 +52,7 @@ async function seed() {
         garmentClass: group.garmentClass,
         status: "PUBLISHED",
         sourceType: "DEMO",
-        description: "نمونه نمایشی؛ محصول واقعی ساروچی نیست.",
+        description: "نمونه نمایشی؛ محصول واقعی فروشگاه نیست.",
       }).onDuplicateKeyUpdate({ set: { slug } });
       const productId = await idBySlug(products, slug);
       await db.insert(productCategories).values({ productId, categoryId }).onDuplicateKeyUpdate({ set: { productId } });

@@ -3,6 +3,7 @@ import { and, eq, sql } from "drizzle-orm";
 import { cache } from "react";
 import { db } from "@/db/client";
 import { assets, brands, cmsPages } from "@/db/schema";
+import { storefrontCopy } from "../storefront-copy";
 import { brandIdentitySchema, brandPresentationSchema, readBrandSettingsRecord, type BrandIdentity } from "../brand-settings";
 
 const getSarochiBrand = cache(async () => {
@@ -18,7 +19,14 @@ export async function getBrandTheme() {
 export async function getBrandPresentation() {
   const brand = await getSarochiBrand();
   const parsed = brandPresentationSchema.safeParse(brand?.settings);
-  return parsed.success ? parsed.data : null;
+  return parsed.success ? {
+    ...parsed.data,
+    heroEyebrowFa: storefrontCopy(parsed.data.heroEyebrowFa),
+    heroHeadingFa: storefrontCopy(parsed.data.heroHeadingFa),
+    heroAccentFa: storefrontCopy(parsed.data.heroAccentFa),
+    heroDescriptionFa: storefrontCopy(parsed.data.heroDescriptionFa),
+    heroCtaFa: storefrontCopy(parsed.data.heroCtaFa),
+  } : null;
 }
 
 export async function getBrandIdentity(): Promise<BrandIdentity> {
@@ -37,10 +45,11 @@ export async function getPublicBrandLogo(hash?: string): Promise<{ id: number; u
 export async function getPublishedPage(slug: string) {
   const [page] = await db.select({ slug: cmsPages.slug, title: cmsPages.title, body: cmsPages.body, updatedAt: cmsPages.updatedAt })
     .from(cmsPages).where(and(eq(cmsPages.slug, slug), eq(cmsPages.locale, "fa-IR"), eq(cmsPages.visibility, "PUBLISHED"))).limit(1);
-  return page ?? null;
+  return page ? { ...page, title: storefrontCopy(page.title), body: storefrontCopy(page.body) } : null;
 }
 
 export async function getPublishedPageLinks() {
-  return db.select({ slug: cmsPages.slug, title: cmsPages.title }).from(cmsPages)
+  const pages = await db.select({ slug: cmsPages.slug, title: cmsPages.title }).from(cmsPages)
     .where(and(eq(cmsPages.locale, "fa-IR"), eq(cmsPages.visibility, "PUBLISHED"))).orderBy(cmsPages.id).limit(20);
+  return pages.map((page) => ({ ...page, title: storefrontCopy(page.title) }));
 }

@@ -25,14 +25,14 @@ export function SourceStyleRoom({ product, wardrobe }: { product: ProductDetailD
   return <div className="grid items-start gap-8 lg:grid-cols-[minmax(0,1fr)_350px]">
     <section aria-label={`عکس‌های استایل ${product.nameFa}`}>
       <div className="relative flex min-h-[460px] h-[min(76svh,850px)] items-center justify-center overflow-hidden rounded-3xl bg-canvas">
-        {selected ? <Image src={selected.url} alt={onModel.length ? `${product.nameFa} بر تن مدل، عکس اصلی ساروچی` : product.nameFa} fill sizes="(max-width: 1023px) 94vw, 65vw" unoptimized className="object-contain" /> : <p className="text-sm text-muted">عکسی برای این محصول ثبت نشده است.</p>}
+        {selected ? <Image src={selected.url} alt={onModel.length ? `${product.nameFa} بر تن مدل، عکس اصلی فروشگاه` : product.nameFa} fill sizes="(max-width: 1023px) 94vw, 65vw" unoptimized className="object-contain" /> : <p className="text-sm text-muted">عکسی برای این محصول ثبت نشده است.</p>}
         {photos.length > 1 && <><button type="button" onClick={() => changePhoto(-1)} aria-label="عکس قبلی" className="absolute left-3 grid h-11 w-11 place-items-center rounded-full border border-ink/20 bg-canvas/90">←</button><button type="button" onClick={() => changePhoto(1)} aria-label="عکس بعدی" className="absolute right-3 grid h-11 w-11 place-items-center rounded-full border border-ink/20 bg-canvas/90">→</button></>}
       </div>
       {photos.length > 1 && <div role="group" aria-label="انتخاب عکس استایل" className="mt-4 flex gap-3 overflow-x-auto pb-2">{photos.map((photo, index) => <button key={photo.id} type="button" onClick={() => setSelectedId(photo.id)} aria-pressed={selected?.id === photo.id} aria-label={`عکس استایل ${index + 1}`} className="relative h-24 w-20 shrink-0 overflow-hidden rounded-xl border border-ink/15 aria-pressed:ring-2 aria-pressed:ring-moss"><Image src={photo.url} alt="" fill sizes="80px" unoptimized className="object-contain" /></button>)}</div>}
     </section>
     <aside>
       <h2 className="text-2xl leading-relaxed font-medium">{product.nameFa}</h2>
-      <p className="mt-4 text-sm leading-7 text-muted">{onModel.length ? "عکس اصلی همین محصول بر تن مدل، از گالری ساروچی." : "عکس‌های اصلی همین محصول از گالری ساروچی."}</p>
+      <p className="mt-4 text-sm leading-7 text-muted">{onModel.length ? "عکس اصلی همین محصول بر تن مدل، از گالری فروشگاه." : "عکس‌های اصلی همین محصول از گالری فروشگاه."}</p>
       {!onModel.length && <p className="mt-3 text-sm leading-7 text-muted">برای این محصول عکس بر تن مدل ثبت نشده است.</p>}
       {selectedVariant && <label className="mt-6 block text-sm">انتخاب سایز<select value={selectedVariant.id} onChange={(event) => chooseVariant(event.target.value)} className="mt-2 min-h-12 w-full rounded-xl border border-ink/20 bg-canvas px-4">{variants.map((variant) => <option key={variant.id} value={variant.id}>{variant.size?.label ?? variant.sku ?? variant.id}{variant.color ? ` · ${variant.color.nameFa}` : ""}</option>)}</select></label>}
       <Link href={`/products/${product.slug}${selectedVariant ? `?variant=${selectedVariant.id}` : ""}`} className="mt-5 inline-flex min-h-12 items-center rounded-full bg-ink px-6 text-sm text-canvas">جزئیات و انتخاب محصول</Link>

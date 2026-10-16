@@ -1,3 +1,4 @@
+import { StoreMark } from "@/features/content/StoreMark";
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
@@ -7,7 +8,7 @@ import { productQueryKeys, productQuerySchema } from "@/features/catalog/schemas
 import { ShopFilters } from "@/features/catalog/ShopFilters";
 
 export const dynamic = "force-dynamic";
-export const metadata: Metadata = { title: "پوشاک | ساروچی", description: "جستجو و مشاهده پوشاک ساروچی" };
+export const metadata: Metadata = { title: "پوشاک | فروشگاه", description: "جستجو و مشاهده پوشاک فروشگاه" };
 
 type Props = { searchParams: Promise<Record<string, string | string[] | undefined>> };
 
@@ -28,8 +29,8 @@ export default async function ShopPage({ searchParams }: Props) {
   if (catalog?.page.nextCursor) nextParams.set("cursor", String(catalog.page.nextCursor));
 
   return <main className="mx-auto max-w-[1680px] px-5 pb-24 sm:px-9 lg:px-16">
-    <header className="flex min-h-21 items-center justify-between border-b border-ink/15 py-4"><Link href="/" className="font-serif text-2xl tracking-[0.16em]" dir="ltr">SAROCHI</Link><nav className="flex gap-5 text-sm"><Link href="/#rack" className="underline-offset-4 hover:underline">آتلیه زنده</Link><Link href="/cart" className="underline-offset-4 hover:underline">سبد خرید</Link></nav></header>
-    <div className="py-10 sm:py-14"><p className="mb-4 text-xs tracking-[0.15em] text-moss" dir="ltr">THE EDIT / CATALOG</p><h1 className="text-4xl font-medium sm:text-6xl">پوشاک ساروچی</h1><p className="mt-5 max-w-xl text-sm leading-8 text-muted">در میان پوشاک جستجو کنید و رنگ، سایز و قیمت ثبت‌شده را ببینید.</p></div>
+    <header className="flex min-h-21 items-center justify-between border-b border-ink/15 py-4"><Link href="/" className="font-serif text-2xl tracking-[0.16em]" dir="ltr"><StoreMark /></Link><nav className="flex gap-5 text-sm"><Link href="/#rack" className="underline-offset-4 hover:underline">آتلیه زنده</Link><Link href="/cart" className="underline-offset-4 hover:underline">سبد خرید</Link></nav></header>
+    <div className="py-10 sm:py-14"><p className="mb-4 text-xs tracking-[0.15em] text-moss" dir="ltr">THE EDIT / CATALOG</p><h1 className="text-4xl font-medium sm:text-6xl">پوشاک فروشگاه</h1><p className="mt-5 max-w-xl text-sm leading-8 text-muted">در میان پوشاک جستجو کنید و رنگ، سایز و قیمت ثبت‌شده را ببینید.</p></div>
     {!parsed.success ? <div role="alert" className="rounded-2xl bg-rack p-7 text-sm">فیلترهای نشانی معتبر نیستند. <Link href="/shop" className="underline">بازگشت به همه پوشاک</Link></div> : !catalog ? <p role="status" className="rounded-2xl bg-rack p-7 text-sm text-muted">کاتالوگ اکنون در دسترس نیست. لطفاً کمی بعد دوباره تلاش کنید.</p> : <>
       <Suspense fallback={<p className="text-sm text-muted">در حال بارگذاری فیلترها…</p>}><ShopFilters key={new URLSearchParams(params).toString()} facets={catalog.facets} /></Suspense>
       <div className="mt-8 flex items-center justify-between border-b border-ink/15 pb-4"><h2 className="text-lg font-medium">نتایج</h2><span className="text-xs text-muted">{catalog.page.items.length.toLocaleString("fa-IR")} پوشاک در این صفحه</span></div>
